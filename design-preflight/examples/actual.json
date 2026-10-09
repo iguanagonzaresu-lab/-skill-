@@ -1,0 +1,6 @@
+{
+  "schema_version":1,
+  "source":{"kind":"synthetic","reference":"Fictional implementation, deliberately contains three differences"},
+  "context":{"width":1440,"height":900,"dpr":1,"theme":"light","state":"default","coordinate_space":"frame-css-px"},
+  "elements":[{"id":"1:2","selector":"[data-design-id=primary]","matches":1,"visible":true,"fonts_ready":true,"properties":{"width":160,"height":44,"column_gap":8,"font_size":14,"font_weight":600,"line_height":24,"letter_spacing":0,"background_color":[59,130,246,1]}}]
+}
