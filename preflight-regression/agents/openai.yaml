@@ -1,0 +1,4 @@
+interface:
+  display_name: "Preflight Regression"
+  short_description: "Change-aware release checks with evidence and coverage"
+  default_prompt: "Use $preflight-regression to inspect this change before I mark it finished, run approved checks, and report PASS, WARN or BLOCK with evidence."
