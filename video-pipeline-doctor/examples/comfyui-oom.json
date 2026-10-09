@@ -1,0 +1,9 @@
+{
+  "provider": "comfyui",
+  "response": { "type": "execution_error", "data": { "node_id": "2", "exception_message": "CUDA out of memory" } },
+  "workflow": {
+    "1": { "class_type": "LoadImage", "inputs": {} },
+    "2": { "class_type": "VAEEncode", "inputs": { "pixels": ["1", 0] } },
+    "3": { "class_type": "KSampler", "inputs": { "latent_image": ["2", 0] } }
+  }
+}

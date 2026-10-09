@@ -1,0 +1,8 @@
+{
+  "provider": "fal",
+  "response": {
+    "http_status": 503,
+    "headers": { "X-Fal-Needs-Retry": "true" },
+    "body": { "status": "FAILED", "error_type": "runner_connection_error" }
+  }
+}

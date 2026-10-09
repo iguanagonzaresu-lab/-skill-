@@ -1,0 +1,318 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Video Pipeline Doctor diagnosis v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "tool_version",
+    "provider",
+    "status",
+    "observed_state",
+    "http_status",
+    "primary_category",
+    "stage",
+    "retry",
+    "workflow",
+    "findings",
+    "missing_information",
+    "notes",
+    "limitations",
+    "references"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "tool_version": {
+      "const": "0.1.0"
+    },
+    "provider": {
+      "enum": [
+        "comfyui",
+        "runway",
+        "fal",
+        "replicate",
+        "ffmpeg",
+        "unknown"
+      ]
+    },
+    "status": {
+      "enum": [
+        "FINDINGS",
+        "NEEDS_INFORMATION"
+      ]
+    },
+    "observed_state": {
+      "enum": [
+        "unknown",
+        "starting",
+        "processing",
+        "succeeded",
+        "failed",
+        "canceled",
+        "cancelled",
+        "pending",
+        "running",
+        "throttled",
+        "in_queue",
+        "in_progress",
+        "completed"
+      ]
+    },
+    "http_status": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "primary_category": {
+      "enum": [
+        "INPUT_INVALID",
+        "AUTH_QUOTA",
+        "SAFETY",
+        "MODEL_SCHEMA_DRIFT",
+        "MISSING_DEPENDENCY",
+        "VRAM_OOM",
+        "PROVIDER_UNAVAILABLE",
+        "QUEUE_TIMEOUT",
+        "WEBHOOK_FAILURE",
+        "ENCODING_FAILURE",
+        "QUALITY_FAILURE",
+        "UNKNOWN"
+      ]
+    },
+    "stage": {
+      "enum": [
+        null,
+        "REQUEST",
+        "INPUT",
+        "MODERATION",
+        "GENERATION",
+        "VAE_ENCODE",
+        "VAE_DECODE",
+        "QUEUE",
+        "WEBHOOK",
+        "ENCODING"
+      ]
+    },
+    "retry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "decision",
+        "automatic_execution",
+        "guidance"
+      ],
+      "properties": {
+        "decision": {
+          "enum": [
+            "DO_NOT_RETRY_AS_IS",
+            "RETRY_LATER",
+            "CHECK_STATUS_FIRST",
+            "NO_RETRY_NEEDED",
+            "UNKNOWN"
+          ]
+        },
+        "automatic_execution": {
+          "const": false
+        },
+        "guidance": {
+          "type": "string"
+        }
+      }
+    },
+    "workflow": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "failing_node",
+        "upstream",
+        "downstream",
+        "stage"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "NOT_PROVIDED",
+            "INVALID",
+            "NODE_NOT_IDENTIFIED",
+            "MATCHED"
+          ]
+        },
+        "failing_node": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "upstream": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "downstream": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "stage": {
+          "enum": [
+            null,
+            "REQUEST",
+            "INPUT",
+            "MODERATION",
+            "GENERATION",
+            "VAE_ENCODE",
+            "VAE_DECODE",
+            "QUEUE",
+            "WEBHOOK",
+            "ENCODING"
+          ]
+        }
+      }
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "category",
+          "stage",
+          "cause",
+          "confidence",
+          "confidence_basis",
+          "evidence",
+          "retry",
+          "fixes",
+          "verify",
+          "source"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "category": {
+            "enum": [
+              "INPUT_INVALID",
+              "AUTH_QUOTA",
+              "SAFETY",
+              "MODEL_SCHEMA_DRIFT",
+              "MISSING_DEPENDENCY",
+              "VRAM_OOM",
+              "PROVIDER_UNAVAILABLE",
+              "QUEUE_TIMEOUT",
+              "WEBHOOK_FAILURE",
+              "ENCODING_FAILURE",
+              "QUALITY_FAILURE",
+              "UNKNOWN"
+            ]
+          },
+          "stage": {
+            "enum": [
+              null,
+              "REQUEST",
+              "INPUT",
+              "MODERATION",
+              "GENERATION",
+              "VAE_ENCODE",
+              "VAE_DECODE",
+              "QUEUE",
+              "WEBHOOK",
+              "ENCODING"
+            ]
+          },
+          "cause": {
+            "type": "string"
+          },
+          "confidence": {
+            "enum": [
+              "strong",
+              "moderate"
+            ]
+          },
+          "confidence_basis": {
+            "enum": [
+              "structured",
+              "signature",
+              "caller"
+            ]
+          },
+          "evidence": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "location",
+                "observation"
+              ],
+              "properties": {
+                "location": {
+                  "type": "string"
+                },
+                "observation": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "retry": {
+            "enum": [
+              "DO_NOT_RETRY_AS_IS",
+              "RETRY_LATER",
+              "CHECK_STATUS_FIRST",
+              "NO_RETRY_NEEDED",
+              "UNKNOWN"
+            ]
+          },
+          "fixes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "verify": {
+            "type": "string"
+          },
+          "source": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        }
+      }
+    },
+    "missing_information": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "notes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "limitations": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "references": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}
